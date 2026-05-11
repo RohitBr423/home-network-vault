@@ -1,26 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { LoginScreen } from "@/components/LoginScreen";
+import { Dashboard } from "@/components/Dashboard";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "HomeNet Docs — Secure IT Portal" },
+      { name: "description", content: "Internal IT documentation portal for the home network." },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  const [unlocked, setUnlocked] = useState(false);
+  return unlocked
+    ? <Dashboard onLogout={() => setUnlocked(false)} />
+    : <LoginScreen onUnlock={() => setUnlocked(true)} />;
 }
